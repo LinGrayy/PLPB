@@ -5,8 +5,6 @@ import os
 import os.path as osp
 import torch.nn.functional as F
 
-# import matplotlib
-# matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 from PIL import Image
 import torch
@@ -17,7 +15,6 @@ from dataloaders import fundus_dataloader as DL
 from torch.utils.data import DataLoader
 from dataloaders import custom_transforms as tr
 from torchvision import transforms
-# from scipy.misc import imsave
 from matplotlib.pyplot import imsave
 from utils.Utils import *
 from metrics import *
@@ -35,8 +32,6 @@ import imgaug.augmenters as iaa
 import torchattacks
 from scipy.ndimage import distance_transform_edt
 bceloss = torch.nn.BCELoss(reduction='none')
-
-
 
 def entropy_loss(v):
     """
