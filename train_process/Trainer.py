@@ -114,17 +114,13 @@ class Trainer(object):
                 target_map = sample['map']
                 target_boundary = sample['boundary']
 
-                #data, target_map, aimg_source, target_boundary, dlabel_source = sample
                 
-                #data = torch.cat([data, aimg_source, data], dim=1)
                 if self.cuda:
-                    # data, target_map, aimg_source, target_boundary = data.cuda(), target_map.cuda(), aimg_source.cuda(), target_boundary.cuda()
                     data, target_map, target_boundary = data.cuda(), target_map.cuda(), target_boundary.cuda()
                     predictions, boundary, _ = self.model_gen(data)
                 with torch.no_grad():
                     predictions, boundary, _ = self.model_gen(data)
 
-                #loss = F.binary_cross_entropy_with_logits(predictions[:,0,:,:], target_map.to(torch.float))
                 loss = F.binary_cross_entropy_with_logits(predictions, target_map)
             
                 loss_data = loss.data.item()
@@ -132,17 +128,15 @@ class Trainer(object):
                     raise ValueError('loss is nan while validating')
                 val_loss += loss_data
 
-                #dice_cup = dice_coeff(predictions[:,0,:,:], target_map)#dice_coeff_2label
                 dice_cup = dice_coeff_2label(predictions, target_map)
                 dice_disc = dice_coeff_2label(predictions, target_map)#
-                # print('dice: ', dice_cup)
                 val_cup_dice += np.sum(dice_cup)
                 val_disc_dice += np.sum(dice_disc)
                 datanum_cnt += float(dice_cup.shape[0])
             val_loss /= datanum_cnt
             val_cup_dice /= datanum_cnt
             val_disc_dice /= datanum_cnt
-            metrics.append((val_loss, val_cup_dice))#val_disc_dice
+            metrics.append((val_loss, val_cup_dice))
             self.writer.add_scalar('val_data/loss_CE', val_loss, self.epoch * (len(self.domain_loaderS)))
             self.writer.add_scalar('val_data/val_CUP_dice', val_cup_dice, self.epoch * (len(self.domain_loaderS)))
             self.writer.add_scalar('val_data/val_DISC_dice', val_disc_dice, self.epoch * (len(self.domain_loaderS)))
@@ -248,17 +242,6 @@ class Trainer(object):
             for param in self.model_gen.parameters():
                 param.requires_grad = True
             
-            # device = torch.device('cuda:0')
-            # cimg_source, target_map, aimg_source, target_boundary, dlabel_source = sampleS
-            # cimg_source = cimg_source.to(device)
-            # target_map = target_map.to(device)
-            # aimg_source = aimg_source.to(device)
-            # target_boundary = target_boundary.to(device)
-            # dlabel_source = dlabel_source.to(device)
-            # img_cat = torch.cat([cimg_source, aimg_source, cimg_source], dim=1)
-            
-            #oS, boundaryS, dpred_source = self.model_gen(img_cat)
-
             imageS = sampleS['image'].cuda()
             target_map = sampleS['map'].cuda()
             target_boundary = sampleS['boundary'].cuda()
@@ -268,21 +251,12 @@ class Trainer(object):
             loss_seg1 = bceloss(torch.sigmoid(oS), target_map)
             loss_seg2 = mseloss(torch.sigmoid(boundaryS), target_boundary)
 
-            # loss_seg1 = bceloss(torch.sigmoid(oS)[:,0,:,:], target_map.to(torch.float))
-            # loss_seg2 = mseloss(torch.sigmoid(boundaryS)[:,0,:,:], target_boundary.to(torch.float))
-
-            #interp = nn.Upsample(size=(512,512), mode='bilinear',align_corners=True)
-            #feature = interp(feature)
-            #W_est, global_loss = causal_structure_learning(np.hstack((feature.data.cpu(), target_map.data.cpu())), lambda1=0)
-            # loss_seg = loss_seg1 + loss_seg2
             loss_seg = loss_seg1 +loss_seg2#+ global_loss
 
             self.running_seg_loss += loss_seg.item()
             loss_seg_data = loss_seg.data.item()
             if np.isnan(loss_seg_data):
                 raise ValueError('loss is nan while training')
-
-            #cup_dice, disc_dice = dice_coeff_2label(oS, target_map)
             
             loss_seg.backward()
             self.optim_gen.step()
