@@ -426,7 +426,7 @@ class GetBoundary(object):
         disc = dila_disc + eros_disc
         cup[cup==2]=0
         disc[disc==2]=0
-        boundary = (cup + disc) > 0
+        boundary = (cup + disc) > 0 #  creates a binary boundary mask by comparing the sum of the cup and disc masks to zero
         return boundary.astype(np.uint8)
 
 
