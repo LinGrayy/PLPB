@@ -70,10 +70,7 @@ if __name__ == '__main__':
     db_train = DL.FundusSegmentationRIGA(base_dir=args.data_dir, dataset=args.dataset, split='train/', transform=composed_transforms_test)
     db_test = DL.FundusSegmentationRIGA(base_dir=args.data_dir, dataset=args.dataset, split='test/', transform=composed_transforms_test)
     db_source = DL.FundusSegmentationRIGA(base_dir=args.data_dir, dataset=args.source, split='train/ROIs', transform=composed_transforms_test)
-    # db_train = DL.CellSegmentation(base_dir=args.data_dir, dataset=args.dataset, split='train/', transform=composed_transforms_test)
-    # db_test = DL.CellSegmentation(base_dir=args.data_dir, dataset=args.dataset, split='test/', transform=composed_transforms_test)
-    # db_source = DL.CellSegmentation(base_dir=args.data_dir, dataset=args.source, split='train/', transform=composed_transforms_test)
-
+  
     train_loader = DataLoader(db_train, batch_size=args.batchsize, shuffle=False, num_workers=1,drop_last=True)
     test_loader = DataLoader(db_test, batch_size=args.batchsize, shuffle=False, num_workers=1)
     source_loader = DataLoader(db_source, batch_size=args.batchsize, shuffle=False, num_workers=1)
