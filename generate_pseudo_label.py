@@ -121,27 +121,6 @@ if __name__ == '__main__':
 
             prediction=torch.mean(preds1,dim=0)
 
-            # complementary label generation
-            # pred_s = preds[0,:,:,:,:].permute(0, 2, 3, 1).contiguous().view(-1, 2)
-            # pred_s_softmax = F.softmax(pred_s, -1)
-            # width = 1
-            # k = 2 // 2 + random.randint(-width, width)
-            # _, labels_neg = torch.topk(pred_s_softmax, 2, dim=1, sorted=True)
-            # s_neg = torch.log(torch.clamp(1. - pred_s_softmax, min=1e-5, max=1.))
-            # labels_neg = labels_neg[:, -1].squeeze().detach()
-            # print(s_neg.shape)
-            # print('negative label:', labels_neg.shape)
-
-            # # save pseudo negative label image
-            # mask_oc = construct_color_img(labels_neg[0][0,:,:])
-            # mask_oc = cv2.cvtColor(mask_oc, cv2.COLOR_BGR2GRAY)
-            # print(pseudo_label.shape)
-            # mask_od = construct_color_img(labels_neg[0][1,:,:])
-            # mask_od = cv2.cvtColor(mask_od, cv2.COLOR_BGR2GRAY)
-            # cv2.imwrite(os.path.join('/mnt/data1/llr_data/results/pseudoneglabel/', args.dataset, 'oc',sample['img_name'][0]), mask_oc)
-            # cv2.imwrite(os.path.join('/mnt/data1/llr_data/results/pseudoneglabel/', args.dataset, 'od',sample['img_name'][0]), mask_od)
-
-
             pseudo_label = prediction.clone()
             pseudo_label[pseudo_label > 0.75] = 1.0; pseudo_label[pseudo_label <= 0.75] = 0.0
 
