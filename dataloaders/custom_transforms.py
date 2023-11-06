@@ -466,27 +466,6 @@ class Normalize_tf(object):
                 'img_name': name
                }
 
-
-class Normalize_cityscapes(object):
-    """Normalize a tensor image with mean and standard deviation.
-    Args:
-        mean (tuple): means for each channel.
-        std (tuple): standard deviations for each channel.
-    """
-    def __init__(self, mean=(0., 0., 0.)):
-        self.mean = mean
-
-    def __call__(self, sample):
-        img = np.array(sample['image']).astype(np.float32)
-        mask = np.array(sample['label']).astype(np.float32)
-        img -= self.mean
-        img /= 255.0
-
-        return {'image': img,
-                'label': mask,
-                'img_name': sample['img_name']}
-
-
 class ToTensor(object):
     """Convert ndarrays in sample to Tensors."""
 
