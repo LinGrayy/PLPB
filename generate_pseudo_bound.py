@@ -115,8 +115,6 @@ if __name__ == '__main__':
             b1 = torch.sigmoid(boundary)
             b = torch.mean(b1,dim=0)
             pseudo_bound = b.clone()
-            # try bound threshold---no! boundary generation is different with pseudo labels
-            # pseudo_bound[pseudo_bound > 0.75] = 1.0; pseudo_bound[pseudo_bound <= 0.75] = 0.0
             
             feature = torch.mean(features,dim=0)
             pseudo_bound = pseudo_bound.detach().cpu().numpy()
