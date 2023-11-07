@@ -14,8 +14,8 @@ from scipy import ndimage
 
 def to_multilabel(pre_mask, classes = 2):
     mask = np.zeros((pre_mask.shape[0], pre_mask.shape[1], classes))
-    mask[pre_mask == 1] = [0, 1]
-    mask[pre_mask == 2] = [1, 1]
+    mask[pre_mask == 1] = [0, 1] # probability of the pixel belonging to each class. For example, the value at mask[i, j, 0] represents the probability of the pixel at (i, j) belonging to the first class
+    mask[pre_mask == 2] = [1, 1] # and the value at mask[i, j, 1] represents the probability of the pixel at (i, j) belonging to the second class.
     return mask
 
 
