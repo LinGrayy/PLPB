@@ -246,31 +246,6 @@ if __name__ == '__main__':
                 im = np.array(target_numpy[:,0, ...]).transpose(1,2,0) *255
                 im1 = np.array(prediction[:,0, ...]).transpose(1,2,0) *255
                 
-                # save segmentation image results dataset_open
-                # img = cv2.imread(os.path.join('/mnt/data1/llr_data/Fundus/', args.dataset,'test/ROIs/image', sample['img_name'][0]))
-                # img = cv2.resize(img, (512,512))
-                # mask_oc = prediction.data.cpu()[0][0].numpy()
-                # mask_oc = construct_color_img(mask_oc)
-                # mask_oc = cv2.cvtColor(mask_oc, cv2.COLOR_BGR2GRAY)
-                # #cv2.imwrite(os.path.join('/mnt/data1/llr_data/results/', args.dataset, sample['img_name'][0]), mask_oc)
-                # mask_od = prediction.data.cpu()[0][1].numpy()
-                # mask_od = construct_color_img(mask_od)
-                # mask_od = cv2.cvtColor(mask_od, cv2.COLOR_BGR2GRAY)
-
-                # ret, thresh = cv2.threshold(mask_oc, 127, 255, 0)
-                # contours, im = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE) #第一个参数是轮廓 whitebox color=(0, 255, 0)
-                # img_white = np.zeros((512, 512), np.uint8)
-                # img_white.fill(255) # white background
-                # result_oc = cv2.drawContours(image=img, contours=contours, contourIdx=-1, color=(0, 0, 0), thickness=4)
-                
-                # ret1, thresh1 = cv2.threshold(mask_od, 127, 255, 0)
-                # contours1, im = cv2.findContours(thresh1, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-                # result_od = cv2.drawContours(image=result_oc, contours=contours1, contourIdx=-1, color=(0, 0, 0), thickness=4)
-                # # if not os.path.exists(os.path.join('/mnt/data1/llr_data/results/boundary/', args.dataset)):
-                # #     os.mkdir(os.path.join('/mnt/data1/llr_data/results/boundary/', args.dataset))
-                # # cv2.imwrite(os.path.join('/mnt/data1/llr_data/results/boundary/', args.dataset, sample['img_name'][0]), result_od)
-                # cv2.imwrite(os.path.join('./results/boundary/', args.dataset, sample['img_name'][0]), result_od)
-                
                 cup_dice = dice_coefficient_numpy(prediction[:,0, ...], target_numpy[:, 0, ...])
                 disc_dice = dice_coefficient_numpy(prediction[:,1, ...], target_numpy[:, 1, ...])
 
