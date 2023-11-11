@@ -31,4 +31,4 @@ cd PLPB
 * Run `./train_target.py` to start the target domain training process.
 
 ## Acknowledgement
-The code for source domain training is modified from [BEAL](https://github.com/emma-sjwang/BEAL). 
+The code for source domain training is modified from [BEAL](https://github.com/emma-sjwang/BEAL) and [DPL](https://github.com/cchen-cc/SFDA-DPL). 
