@@ -15,7 +15,7 @@ from torch.autograd import Variable
 import tqdm
 from dataloaders import fundus_dataloader as DL
 from torch.utils.data import DataLoader
-from dataloaders import custom_transformssemi as tr
+from dataloaders import custom_transforms as tr
 from torchvision import transforms
 
 from matplotlib.pyplot import imsave
